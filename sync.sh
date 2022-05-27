@@ -14,8 +14,8 @@ unzip mk.zip
 rm -rf obsidian_nobel/Personal
 rm -rf obsidian_nobel/Unorganized_Thoughts.md
 
-cd obsidian_nobel/03_Blog/
-for file in *
+cd /root/obsidianHosting/obsidian_nobel/03_Blog/
+for file in /root/obsidianHosting/obsidian_nobel/03_Blog/*
 do
   # Add title to top of Markdown
   echo "$file" | cut -d "." -f 1 | awk '{print "# "$1"\n"}' | tr _ " " | cat - "$file" > temp && mv temp "$file"
@@ -28,7 +28,7 @@ do
   done && echo)
   mv "$file" "${BASE62DATE}_${file}"
 done
-cd ../../
+cd /root/obsidianHosting/
 
 # add template file
 cp template.html obsidian_nobel/template.html
