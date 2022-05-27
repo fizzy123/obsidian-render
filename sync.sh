@@ -1,5 +1,6 @@
-# sync
+set -e
 
+# download
 cd /root/obsidianHosting
 rm -rf obsidian_nobel
 rm -rf _obsidian_nobel
