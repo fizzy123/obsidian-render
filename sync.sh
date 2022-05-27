@@ -1,4 +1,5 @@
 set -e
+. /root/.bashrc
 
 # download
 cd /root/obsidianHosting
@@ -16,7 +17,7 @@ rm -rf obsidian_nobel/Personal
 rm -rf obsidian_nobel/Unorganized_Thoughts.md
 
 cd /root/obsidianHosting/obsidian_nobel/03_Blog/
-for file in /root/obsidianHosting/obsidian_nobel/03_Blog/*
+for file in *
 do
   # Add title to top of Markdown
   echo "$file" | cut -d "." -f 1 | awk '{print "# "$1"\n"}' | tr _ " " | cat - "$file" > temp && mv temp "$file"
