@@ -1,14 +1,17 @@
 set -e
 . /root/.bashrc
 
-# download
+# setup
 cd /root/obsidianHosting
 rm -rf obsidian_nobel
 rm -rf _obsidian_nobel
 rm -rf mk.zip
 rm -rf /var/www
-curl -X POST https://content.dropboxapi.com/2/files/download_zip \
-  --header "Authorization: Bearer $DROPBOX_KEY" \
+
+# download
+DROPBOX_ACCESS_TOKEN=$(curl -s https://api.dropbox.com/oauth2/token -d grant_type=refresh_token -d refresh_token=$DROPBOX_REFRESH_TOKEN -u $DROPBOX_APP_KEY:$DROPBOX_APP_SECRET | jq -r '.access_token')
+curl -s -X POST https://content.dropboxapi.com/2/files/download_zip \
+  --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
   --header "Dropbox-API-Arg: {\"path\":\"/obsidian_nobel\"}" > mk.zip
 unzip mk.zip
 
