@@ -22,15 +22,17 @@ rm -rf obsidian_nobel/Unorganized_Thoughts.md
 cd /root/obsidianHosting/obsidian_nobel/03_Blog/
 for file in *
 do
-  # Add title to top of Markdown
-  echo "$file" | cut -d "." -f 1 | awk '{print "# "$1"\n"}' | tr _ " " | cat - "$file" > temp && mv temp "$file"
-
   # add dates to article names
-  DATE_DIFF=$(echo $(($(date +%Y%m%d)-20220527)))
+  DATE_DIFF=$(echo $((($(date -d "Jan 1 2100" +%s) -$(date -r $file "+%s"))/(3600 * 24))))
   BASE62=($(echo {0..9} {a..z} {A..Z}))
   BASE62DATE=$(for i in $(bc <<< "obase=62; $DATE_DIFF"); do
     echo -n ${BASE62[$(( 10#$i ))]}
   done && echo)
+
+  # Add title to top of Markdown
+  # This has to happen after calculating the date so that the file isn't modified
+  echo "$file" | cut -d "." -f 1 | awk '{print "# "$1"\n"}' | tr _ " " | cat - "$file" > temp && mv temp "$file"
+
   mv "$file" "${BASE62DATE}_${file}"
 done
 cd /root/obsidianHosting/
